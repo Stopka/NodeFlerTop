@@ -5,7 +5,6 @@ RUN \
         chromium \
         supervisor \
         cron && \
-    yarn install && \
     apt-get clean -y && \
     apt-get autoclean -y && \
     apt-get autoremove -y && \
@@ -21,6 +20,7 @@ ADD ./docker/cron/app /etc/cron.d/
 ADD ./application /srv
 
 RUN \
+	yarn install && \
     chmod u+x /srv/cron.sh /usr/sbin/entry.sh /usr/sbin/generate_envfile.sh
 
 CMD ["entry.sh"]
