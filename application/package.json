@@ -1,0 +1,31 @@
+{
+  "dependencies": {
+    "axios": "^0.19.2",
+    "node-html-parser": "^1.2.8",
+    "runtypes": "^4.2.0",
+    "testcafe": "^1.8.2"
+  },
+  "name": "node-fler-top",
+  "version": "1.0.0",
+  "description": "Topovač",
+  "main": "app.js",
+  "private": true,
+  "author": "Štěpán Škorpil",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^13.7.0",
+    "@typescript-eslint/eslint-plugin": "^1.7.0",
+    "@typescript-eslint/parser": "^1.7.0",
+    "eslint": "^5.3.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-config-typescript-airbnb-base": "^1.0.0-rc1",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^1.6.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "1.19.1",
+    "typescript": "~3.7.5"
+  }
+}

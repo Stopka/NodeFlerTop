@@ -1,0 +1,8 @@
+version: "2.4"
+services:
+  flertop:
+    image: skorpils/flertop:latest
+    build: ./
+    environment:
+      - "USERNAME=${FLERTOP_USERNAME}"
+      - "PASSWORD=${FLERTOP_PASSWORD}"

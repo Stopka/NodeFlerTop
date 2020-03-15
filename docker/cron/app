@@ -1,0 +1,16 @@
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/srv/
+
+# COLUMNS
+###############################################
+# min (0-59)
+# hour (0-23)
+# day of month (1-31)
+# month (1-12)
+# day of week (0-6; Sunday=0)
+# user
+# command
+#
+#m  h   dom mo  dow usr         cmd
+#----------------------------------------------
+30	*	*	*	*	root	cron.sh > /proc/1/fd/1 2> /proc/1/fd/2
