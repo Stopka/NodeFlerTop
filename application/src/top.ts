@@ -47,7 +47,12 @@ test('Make top', async (t): Promise<number> => {
   const canBeTopped = await randomTopButton.exists;
   if (canBeTopped) {
     console.info('Topping good');
-    await t.click(randomTopButton).wait(2000);
+    await t
+      .setNativeDialogHandler((type, text, url): boolean => {
+        return true;
+      })
+      .click(randomTopButton)
+      .wait(2000);
   } else {
     console.info('Missing top button');
   }
