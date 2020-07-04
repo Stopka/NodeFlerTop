@@ -54,12 +54,14 @@ test('Make top', async (t): Promise<number> => {
     return [editButtonElements[index]];
   });
   console.info('Selecting random goods item');
-  await t.click(randomGoodsItem).wait(2000);
+  await t
+    .click(randomGoodsItem)
+    .wait(2000)
+    .click('.flypanel.visible .buttonmenu [data-editblock-load="topproduct"]')
+    .wait(2000);
 
   const topButton = Selector((): Node[] => {
-    const topButtons = document.querySelectorAll(
-      '.flypanel.visible .buttonmenu [data-editblock-load="topproduct"]'
-    );
+    const topButtons = document.querySelectorAll('.flypanel.visible .edit_block_form button');
     if (topButtons.length === 0) {
       return [];
     }
@@ -68,16 +70,12 @@ test('Make top', async (t): Promise<number> => {
   console.info('Trying to top');
   const canBeTopped = await topButton.exists;
   if (canBeTopped) {
-    console.info('Topping good');
-    await t
-      .setNativeDialogHandler((type, text, url): boolean => {
-        return true;
-      })
-      .click(topButton)
-      .wait(2000);
-  } else {
-    console.info('Missing top button');
+    console.info('Topping');
+    await t.click(topButton).wait(2000);
+    console.info('Topped');
+    return 0;
   }
+  console.info('Missing top button');
   console.info('Parsing waiting time');
   const topTimer = Selector('.flypanel.visible .info.message span');
   const topTimerText = await topTimer.getAttribute('title');
