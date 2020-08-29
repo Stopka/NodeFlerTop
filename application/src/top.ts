@@ -1,18 +1,14 @@
 import { Selector } from 'testcafe';
 
-fixture('Fler.cz').page('https://www.fler.cz');
+fixture('Fler.cz').page('https://www.fler.cz/uzivatel/prihlaseni');
 
 test('Make top', async (t): Promise<number> => {
   console.info('Logging in');
   await t
     .wait(2000)
-    .click('.right > a.rootmenu')
-    .wait(2000)
-    .click('a[href="/uzivatel/prihlaseni"]')
-    .wait(2000)
-    .typeText('#tiLoginUsernameModal', process.env.USERNAME)
-    .typeText('#tiLoginPwdModal', process.env.PASSWORD)
-    .click('#btnLoginModal')
+    .typeText('#ti-username', process.env.USERNAME)
+    .typeText('#ti-pwd', process.env.PASSWORD)
+    .click('button[name="btnLogin"]')
     .wait(2000);
   console.info('Entering goods list');
   await t
