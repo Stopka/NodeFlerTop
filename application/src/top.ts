@@ -1,4 +1,4 @@
-import { Selector } from 'testcafe';
+import { ClientFunction, Selector } from "testcafe";
 
 fixture('Fler.cz').page('https://www.fler.cz/uzivatel/prihlaseni');
 
@@ -10,15 +10,13 @@ test('Make top', async (t): Promise<number> => {
     .typeText('#ti-pwd', process.env.PASSWORD)
     .click('button[name="btnLogin"]')
     .wait(2000);
-  console.info('Entering goods list');
+  console.info('Entering product list');
   await t
     .wait(2000)
-    .hover('.hoverable > a.rootmenu.first')
-    .wait(2000)
-    .click('a[href="/moje-zbozi2"]')
+    .navigateTo('/moje-zbozi2')
     .wait(2000);
 
-  const randomGoodsPage = Selector((): Node[] => {
+  const randomProductPage = Selector((): Node[] => {
     const getRandomInt = (min: number, max: number): number => {
       const minInt = Math.ceil(min);
       const maxInt = Math.floor(max);
@@ -31,30 +29,34 @@ test('Make top', async (t): Promise<number> => {
     }
     return [pageButtonElements[index]];
   });
-  console.info('Entering random goods page');
-  await t.click(randomGoodsPage).wait(2000);
-
-  const randomGoodsItem = Selector((): Node[] => {
+  console.info('Entering random product page');
+  await t.click(randomProductPage).wait(2000);
+  const unhideProductInlineMenus = ClientFunction(
+    (): Promise<void> => {
+      return new Promise((resolve): void => {
+        document.querySelectorAll('.product').forEach(function(item: Element): void {
+          item.className += ' inline_edit_on';
+        });
+        resolve();
+      });
+    }
+  );
+  const randomProductItem = Selector((): Node[] => {
     const getRandomInt = (min: number, max: number): number => {
       const minInt = Math.ceil(min);
       const maxInt = Math.floor(max);
       return Math.floor(Math.random() * (maxInt - minInt + 1)) + minInt;
     };
-    const editButtonElements = document.querySelectorAll(
-      '.product .cartbuttons [fler-action="open_edit_panel"]'
-    );
-    if (editButtonElements.length === 0) {
+    const productElements = document.querySelectorAll('#productlist .product');
+    if (productElements.length === 0) {
       return [];
     }
-    const index = getRandomInt(0, editButtonElements.length - 1);
-    return [editButtonElements[index]];
+    const index = getRandomInt(0, productElements.length - 1);
+    return [productElements[index]];
   });
-  console.info('Selecting random goods item');
-  await t
-    .click(randomGoodsItem)
-    .wait(2000)
-    .click('.flypanel.visible .buttonmenu [data-editblock-load="topproduct"]')
-    .wait(2000);
+  console.info('Selecting random product item');
+  await unhideProductInlineMenus();
+  await t.click(randomProductItem.find('[data-editblock-load="topproduct"]')).wait(1000);
 
   const topButton = Selector((): Node[] => {
     const topButtons = document.querySelectorAll('.flypanel.visible .edit_block_form button');
