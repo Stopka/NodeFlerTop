@@ -6,3 +6,8 @@ services:
     environment:
       - "USERNAME=${FLERTOP_USERNAME}"
       - "PASSWORD=${FLERTOP_PASSWORD}"
+      - "MAIL_HOST=${FLERTOP_MAIL_HOST}"
+      - "MAIL_USER=${FLERTOP_MAIL_USER}"
+      - "MAIL_PASSWORD=${FLERTOP_MAIL_PASSWORD}"
+      - "MAIL_FROM=${FLERTOP_MAIL_FROM}"
+      - "MAIL_TO=${FLERTOP_MAIL_TO}"

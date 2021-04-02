@@ -1,8 +1,12 @@
-import { ClientFunction, Selector } from "testcafe";
+import { ClientFunction, Selector } from 'testcafe';
+import * as nodemailer from 'nodemailer';
 
 fixture('Fler.cz').page('https://www.fler.cz/uzivatel/prihlaseni');
 
 test('Make top', async (t): Promise<number> => {
+  // eslint-disable-next-line no-param-reassign
+  t.ctx.passed = false;
+  console.info(`Started at ${new Date().toISOString()}`);
   console.info('Logging in');
   await t
     .wait(2000)
@@ -35,6 +39,7 @@ test('Make top', async (t): Promise<number> => {
     (): Promise<void> => {
       return new Promise((resolve): void => {
         document.querySelectorAll('.product').forEach(function(item: Element): void {
+          // eslint-disable-next-line no-param-reassign
           item.className += ' inline_edit_on';
         });
         resolve();
@@ -71,6 +76,8 @@ test('Make top', async (t): Promise<number> => {
     console.info('Topping');
     await t.click(topButton).wait(2000);
     console.info('Topped');
+    // eslint-disable-next-line no-param-reassign
+    t.ctx.passed = true;
     return 0;
   }
   console.info('Missing top button');
@@ -85,5 +92,35 @@ test('Make top', async (t): Promise<number> => {
     nextTop: timeSegments,
     nextTopSeconds: seconds
   });
+  // eslint-disable-next-line no-param-reassign
+  t.ctx.passed = true;
   return seconds;
+}).after(async t => {
+  if (t.ctx.passed) {
+    console.log('Everything ok.');
+    return true;
+  }
+  console.log('Failture reported.');
+  if (
+    !process.env.MAIL_HOST ||
+    !process.env.MAIL_PORT ||
+    !process.env.MAIL_USER ||
+    !process.env.MAIL_PASSWORD ||
+    !process.env.MAIL_FROM ||
+    !process.env.MAIL_TO
+  ) {
+    console.info('Mail notifications not set.');
+    return false;
+  }
+  const transporter = nodemailer.createTransport(
+    `smtp://${process.env.MAIL_USER}:${process.env.MAIL_PASSWORD}@${process.env.MAIL_HOST}:${process.env.MAIL_PORT}`
+  );
+  await transporter.sendMail({
+    from: process.env.MAIL_FROM,
+    to: process.env.MAIL_TO,
+    subject: 'Topping failed',
+    text: `Topping failed at ${new Date().toISOString()}`
+  });
+  console.info('Mail notifications send.');
+  return false;
 });

@@ -1,4 +1,12 @@
-FROM node:13-stretch
+FROM node:14-stretch
+ENV USERNAME='' \
+    PASSWORD='' \
+    MAIL_HOST='' \
+    MAIL_PORT=587 \
+    MAIL_USER='' \
+    MAIL_PASSWORD='' \
+    MAIL_FROM='' \
+    MAIL_TO=''
 RUN \
     apt-get update -y && \
     apt-get install -y --no-install-recommends \
