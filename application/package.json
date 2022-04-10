@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "node-html-parser": "^1.2.8",
     "nodemailer": "^6.6.1",
     "runtypes": "^4.2.0",
